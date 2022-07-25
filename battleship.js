@@ -14,6 +14,41 @@ export const Ship = function(length) {
   }
 }
 
-export const Gameboard = function() {
-  this.board = {/*board is an object that assigns each coord (eg 'A2') as a ship. Then it checks if an attack hits a key that has a ship value. Otherwise, it creates a new key with a value of miss};
+export const Gameboard = function(shipOne) {
+  this.board = {
+    'A1': 'miss',
+    'A2': shipOne,
+    'A3': shipOne,
+    'A4': shipOne
+  };
+
+  this.receiveAttack = function(coord) {
+    if(this.board[coord] && this.board[coord] !== 'miss') {
+      const ship = this.board[coord];
+      let j = -1;
+      for (let prop in this.board) {
+        if (this.board[prop] === ship) {
+          j++;
+        }
+        if (prop === coord) {
+          ship.hit(j);
+        }
+      }
+    } else if(this.board[coord] === undefined) {
+      this.board[coord] = 'miss';
+    }
+  }
+
+  this.allSunk = function() {
+    if (shipOne.isSunk()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+export const Player = function(playerName) {
+  this.name = playerName;
+  this.isTurn = false;
 }
