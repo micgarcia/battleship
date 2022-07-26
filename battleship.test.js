@@ -1,4 +1,4 @@
-import { Ship, Gameboard } from './battleship.js';
+import { Ship, Gameboard, Player } from './battleship.js';
 
 test('ship produces object with array of length', () => {
   const shipObject = new Ship(5);
@@ -40,6 +40,24 @@ test('Gameboard has allSunk function that tells whether all ships are sunk', () 
   gameBoard.receiveAttack('A3');
   gameBoard.receiveAttack('A4');
   expect(gameBoard.allSunk()).toBe(true);
-})
+});
+
+test('Player has attack function that attacks gameboard coordinate and hits ship', () => {
+  const player = new Player('Player One');
+  const ship = new Ship(3);
+  const gameBoard = new Gameboard(ship);
+  player.attack(gameBoard, 'A2');
+  expect(ship.positions[0]).toBe('hit');
+});
+
+test('Player has compAttack that attacks random coordinates that have not already missed', () => {
+  const player = new Player('Player One');
+  const ship = new Ship(3);
+  const gameBoard = new Gameboard(ship);
+  player.compAttack(gameBoard);
+  const size = Object.keys(gameBoard.board).length;
+  expect(size).toBe(5);
+});
+
 
 

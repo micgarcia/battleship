@@ -51,4 +51,21 @@ export const Gameboard = function(shipOne) {
 export const Player = function(playerName) {
   this.name = playerName;
   this.isTurn = false;
+  this.attack = function(board, coord) {
+    board.receiveAttack(coord);
+    this.isTurn = false;
+  }
+  this.compAttack = function(board) {
+    const letters = "ABCDEFGHIJ";
+    let randomLetter = letters[Math.floor(Math.random() * letters.length)];
+    let randomNumber = (Math.floor(Math.random() * 10)).toString();
+    let randomCoord = randomLetter + randomNumber;
+    if(board.board[randomCoord] === 'miss') {
+      this.compAttack(board);
+    } else {
+      board.receiveAttack(randomCoord);
+      this.isTurn = false;
+    }
+
+  }
 }
