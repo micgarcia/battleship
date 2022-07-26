@@ -14,13 +14,14 @@ export const Ship = function(length) {
   }
 }
 
-export const Gameboard = function(shipOne) {
-  this.board = {
-    'A1': 'miss',
-    'A2': shipOne,
-    'A3': shipOne,
-    'A4': shipOne
-  };
+export const Gameboard = function(fleet) {
+  this.board = {};
+  let newBoard = this.board;
+  for (let boats in fleet) {
+    for (let i = 0; i < fleet[boats].coordinates.length; i++) {
+      newBoard[fleet[boats].coordinates[i]] = fleet[boats].shipObj;
+    }
+  }
 
   this.receiveAttack = function(coord) {
     if(this.board[coord] && this.board[coord] !== 'miss') {
@@ -40,11 +41,14 @@ export const Gameboard = function(shipOne) {
   }
 
   this.allSunk = function() {
-    if (shipOne.isSunk()) {
-      return true;
-    } else {
-      return false;
+    for (let boats in fleet) {
+      if (fleet[boats].shipObj.isSunk()) {
+        continue;
+      } else {
+        return false;
+      }
     }
+    return true;
   }
 }
 
@@ -68,4 +72,42 @@ export const Player = function(playerName) {
     }
 
   }
+}
+
+export const gameLoop = function() {
+  const playerOne = new Player('Player One');
+  playerOne.isTurn = true;
+  const compPlayer = new Player('Computer');
+
+  const carrier = new Ship(5);
+  const battleship = new Ship(4);
+  const cruiser = new Ship(3);
+  const subOne = new Ship(2);
+  const subTwo = new Ship(2);
+
+  let oneShips = {
+    carrier: {
+      shipObj: carrier,
+      coordinates: ['A1', 'A2', 'A3', 'A4', 'A5']
+    },
+    battleship: {
+      shipObj: battleship,
+      coordinates: ['D1', 'E1', 'F1', 'G1']
+    },
+    cruiser: {
+      shipObj: cruiser,
+      coordinates: ['J1', 'J2', 'J3']
+    },
+    subOne: {
+      shipObj: subOne,
+      coordinates: ['E4', 'E5']
+    },
+    subTwo: {
+      shipObj: subTwo,
+      coordinates: ['B2', 'B3']
+    }
+  }
+
+  const oneBoard = new Gameboard(oneShips);
+  const compBoard = new Gameboard();
 }
