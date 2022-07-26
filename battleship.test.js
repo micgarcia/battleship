@@ -114,37 +114,44 @@ test('Gameboard has allSunk function that tells whether all ships are sunk', () 
 
 test('Player has attack function that attacks gameboard coordinate and hits ship', () => {
   const player = new Player('Player One');
-  const ship = new Ship(3);
-  const gameBoard = new Gameboard(ship);
+  const carrier = new Ship(5);
+  const subTwo = new Ship(2);
+  let oneShips = {
+    carrier: {
+      shipObj: carrier,
+      coordinates: ['A1', 'A2', 'A3', 'A4', 'A5']
+    },
+    subTwo: {
+      shipObj: subTwo,
+      coordinates: ['B2', 'B3']
+    }
+  }
+  const gameBoard = new Gameboard(oneShips);
   player.attack(gameBoard, 'A2');
-  expect(ship.positions[0]).toBe('hit');
+  expect(carrier.positions[1]).toBe('hit');
 });
 
 test('Player has compAttack that attacks random coordinates that have not already missed', () => {
   const player = new Player('Player One');
-  const ship = new Ship(3);
-  const gameBoard = new Gameboard(ship);
-  player.compAttack(gameBoard);
-  const size = Object.keys(gameBoard.board).length;
-  expect(size).toBe(5);
-});
-
-test('Gameboard takes fleet object and makes board', () => {
   const carrier = new Ship(5);
-  const battleship = new Ship(4);
-  const cruiser = new Ship(3);
-  const subOne = new Ship(2);
   const subTwo = new Ship(2);
   let oneShips = {
-    carrier: ['A1', 'A2', 'A3', 'A4', 'A5'],
-    battleship: ['D1', 'E1', 'F1', 'G1'],
-    cruiser: ['J1', 'J2', 'J3'],
-    subOne: ['E4', 'E5'],
-    subTwo: ['B2', 'B3']
+    carrier: {
+      shipObj: carrier,
+      coordinates: ['A1', 'A2', 'A3', 'A4', 'A5']
+    },
+    subTwo: {
+      shipObj: subTwo,
+      coordinates: ['B2', 'B3']
+    }
   }
-  let oneBoard = new Gameboard(oneShips);
-  expect(oneBoard).toBe({});
-})
+  const gameBoard = new Gameboard(oneShips);
+  player.compAttack(gameBoard);
+  const size = Object.keys(gameBoard.board).length;
+  expect(size).toBe(8);
+});
+
+
 
 
 

@@ -57,7 +57,6 @@ export const Player = function(playerName) {
   this.isTurn = false;
   this.attack = function(board, coord) {
     board.receiveAttack(coord);
-    this.isTurn = false;
   }
   this.compAttack = function(board) {
     const letters = "ABCDEFGHIJ";
@@ -68,7 +67,6 @@ export const Player = function(playerName) {
       this.compAttack(board);
     } else {
       board.receiveAttack(randomCoord);
-      this.isTurn = false;
     }
 
   }
@@ -110,4 +108,17 @@ export const gameLoop = function() {
 
   const oneBoard = new Gameboard(oneShips);
   const compBoard = new Gameboard();
+
+  /*
+  while (!(oneBoard.allSunk() || compBoard.allSunk())) {
+    if (playerOne.isTurn) {
+      --Clicking on DOM board coordinate calls player.attack function using that coord
+      --Checks if miss or hit using methods/info from Gameboard/Ship objects
+      --Calls DOM method to designate if hit or miss
+    } else if (compPlayer.isTurn) {
+      --calls compPlayer.compAttack which randomly attacks
+      --Same as above
+    }
+  }
+  */
 }
