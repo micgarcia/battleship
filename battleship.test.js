@@ -1,4 +1,5 @@
 import { Ship, Gameboard, Player } from './battleship.js';
+import { assignBoard } from './battleshipDom.js';
 
 test('ship produces object with array of length', () => {
   const shipObject = new Ship(5);
@@ -150,7 +151,6 @@ test('Player has compAttack that attacks random coordinates that have not alread
   const size = Object.keys(gameBoard.board).length;
   expect(size).toBe(8);
 });
-
 
 
 

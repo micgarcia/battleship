@@ -46,20 +46,52 @@ table {
 #gameArea {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr 1fr;
-  row-gap: 5em;
+  grid-template-rows: 1fr 3fr 1fr 3fr;
+}
+
+.lettersCont {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1fr;
+  align-items: end;
+  justify-items: center;
+  width: 300px;
+  padding-bottom: 0.75em;
+}
+
+.numbersCont {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(10, 1fr);
+  justify-items: end;
+  align-items: center;
+  height: 300px;
+  padding-right: 0.75em;
+}
+
+#playerOne {
+  align-self: end;
 }
 
 #boardOne {
   display: grid;
   grid-template-columns: repeat(10, 30px);
   grid-template-rows: repeat(10, 30px);
+
+  grid-column: 2 / 3;
 }
 
 #boardTwo {
   display: grid;
   grid-template-columns: repeat(10, 30px);
   grid-template-rows: repeat(10, 30px);
+
+  grid-column: 2 / 3;
+}
+
+#playerTwo {
+  grid-column: 1 / 2;
+  align-self: end;
 }
 
 .cell {

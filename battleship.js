@@ -1,3 +1,5 @@
+import { assignBoard, populateBoard, clickAttack } from './battleshipDom.js';
+
 export const Ship = function(length) {
   this.positions = new Array(length);
   this.hit = function(pos) {
@@ -61,7 +63,10 @@ export const Player = function(playerName) {
   this.compAttack = function(board) {
     const letters = "ABCDEFGHIJ";
     let randomLetter = letters[Math.floor(Math.random() * letters.length)];
-    let randomNumber = (Math.floor(Math.random() * 10)).toString();
+    let randomNumber = (Math.floor(Math.random() * (11 - 1) + 1)).toString();
+    if (randomNumber === '0') {
+      this.compAttack(board);
+    }
     let randomCoord = randomLetter + randomNumber;
     if(board.board[randomCoord] === 'miss') {
       this.compAttack(board);
@@ -102,23 +107,75 @@ export const gameLoop = function() {
     },
     subTwo: {
       shipObj: subTwo,
-      coordinates: ['B2', 'B3']
+      coordinates: ['B9', 'C9']
+    }
+  }
+
+  let twoShips = {
+    carrier: {
+      shipObj: carrier,
+      coordinates: ['C2', 'D2', 'E2', 'F2', 'G2']
+    },
+    battleship: {
+      shipObj: battleship,
+      coordinates: ['B4', 'B5', 'B6', 'B7']
+    },
+    cruiser: {
+      shipObj: cruiser,
+      coordinates: ['G10', 'H10', 'I10']
+    },
+    subOne: {
+      shipObj: subOne,
+      coordinates: ['G5', 'G6']
+    },
+    subTwo: {
+      shipObj: subTwo,
+      coordinates: ['J1', 'J2']
     }
   }
 
   const oneBoard = new Gameboard(oneShips);
-  const compBoard = new Gameboard();
+  const compBoard = new Gameboard(twoShips);
 
-  /*
+  assignBoard();
+  populateBoard(oneBoard, 1);
+  populateBoard(compBoard, 2);
+
+  if (playerOne.isTurn) {
+    clickAttack(compPlayer, compBoard);
+    playerOne.isTurn = false;
+    compPlayer.isTurn = true;
+  }
+
+  if(compPlayer.isTurn) {
+    clickAttack(playerOne, oneBoard);
+  }
+
+
+  if (playerOne.isTurn) {
+    clickAttack(compPlayer, compBoard);
+    playerOne.isTurn = false;
+    compPlayer.isTurn = true;
+  } else if (compPlayer.isTurn) {
+    clickAttack(playerOne, oneBoard);
+    compPlayer.isTurn = false;
+    playerOne.isTurn = true;
+  }
+/*
   while (!(oneBoard.allSunk() || compBoard.allSunk())) {
     if (playerOne.isTurn) {
-      --Clicking on DOM board coordinate calls player.attack function using that coord
-      --Checks if miss or hit using methods/info from Gameboard/Ship objects
-      --Calls DOM method to designate if hit or miss
+    clickAttack(compPlayer, compBoard);
+    playerOne.isTurn = false;
+    compPlayer.isTurn = true;
     } else if (compPlayer.isTurn) {
-      --calls compPlayer.compAttack which randomly attacks
-      --Same as above
+      clickAttack(playerOne, oneBoard);
+      compPlayer.isTurn = false;
+      playerOne.isTurn = true;
     }
   }
-  */
+*/
 }
+
+
+gameLoop();
+
