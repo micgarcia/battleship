@@ -19,6 +19,42 @@ export const assignBoard = function() {
   }
 }
 
+export const getShips = new Promise(function(myResolve, myReject) {
+  let oneShips = {};
+  const button = document.getElementById('submitCoord');
+
+  button.addEventListener('click', () => {
+    const carrier = document.getElementById('carrier').value.split(' ');
+    const battleship = document.getElementById('battleship').value.split(' ');
+    const cruiser = document.getElementById('cruiser').value.split(' ');
+    const subOne = document.getElementById('subOne').value.split(' ');
+    const subTwo = document.getElementById('subTwo').value.split(' ');
+
+    oneShips = {
+      'carrier': {
+        coordinates: carrier
+      },
+      'battleship': {
+        coordinates: battleship
+      },
+      'cruiser': {
+        coordinates: cruiser
+      },
+      'subOne': {
+        coordinates: subOne
+      },
+      'subTwo': {
+        coordinates: subTwo
+      }
+    }
+
+    myResolve(oneShips);
+  })
+
+
+
+})
+
 export const populateBoard = function(gameBoard, number) {
     if (number === 1) {
       var boardElement = document.getElementById('boardOne');
@@ -45,6 +81,11 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
     for (let i = 0; i < boardElementChildren.length; i++) {
       boardElementChildren[i].addEventListener('click', function attack(event) {
         let selectedCoord = event.target.id;
+        if (event.target.style.backgroundColor === 'red' || event.target.style.backgroundColor === 'grey') {
+          console.log('already attacked');
+          return;
+        }
+
         targetBoard.receiveAttack(selectedCoord);
         if (targetBoard.board[selectedCoord] === 'miss') {
           event.target.style.backgroundColor = 'red';
@@ -53,7 +94,7 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
         }
 
         // Computer attacking logic
-        let randomCoord = playerOne.compAttack(playerBoard);
+        let randomCoord = targetPlayer.compAttack(playerBoard);
         for (let cell in playerBoard.board) {
           if (playerBoard.board[cell] === 'miss') {
             let hitSpot = document.getElementById(cell);
@@ -69,38 +110,23 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
             }
           }
         }
-
         if (targetBoard.allSunk()) {
-          for (let i = 0; i < boardElementChildren.length; i++) {
-            boardElementChildren[i].removeEventListener('click', function attack);
-          }
+          endGame(playerOne.name);
         } else if (playerBoard.allSunk()) {
-          for (let i = 0; i < boardElementChildren.length; i++) {
-            boardElementChildren[i].removeEventListener('click', function attack);
-          }
+          endGame(targetPlayer.name);
         }
+
       })
-      // targetPlayer.isTurn = true;
     }
   }
-
-  // FIX WHILE LOOP IN BATTLESHIP.JS SO THAT EACH PLAYER TAKES TURNS
-  // FIGURE OUT HOW TO DISABLE CLICK EVENTS FROM PLAYER WHEN NOT THEIR TURN
-  // CREATE WINNING EVENT WHEN THE WHILE LOOP STOPS BECAUSE ONE OF THE BOARDS
-  //    ALLSUNK() FUNCTION RETURNS TRUE
-  // CREATE INPUT TO ALLOW PLAYER TO PLACE SHIPS, COMPUTER RANDOMLY PLACES THEM
-  // CREATE RESTART BUTTON TO RESET THE BOARD AND REPLACE THE SHIPS
-  // HIDE THE COMPUTER'S SHIPS FROM PLAYER BUT SHOW HITS AND MISSES
 }
 
-const endGame = function(losingPlayer, losingBoard, attack) {
-  console.log(losingPlayer);
-  if(losingPlayer.name === 'Computer') {
-    const boardElement = document.getElementById('boardTwo');
-    let boardElementChildren = boardElement.children;
-    for (let i = 0; i < boardElementChildren.length; i++) {
-      boardElementChildren[i].removeEventListener('click', attack);
-    }
-  }
-  console.log('game over');
+const endGame = function(winningPlayer) {
+  const winMessage = document.createElement('div');
+  const form = document.getElementById('coordInput');
+  const content = document.getElementById('content');
+  winMessage.setAttribute('id', 'winMessage');
+  winMessage.innerHTML = winningPlayer + ' has won!';
+
+  content.insertBefore(winMessage, form);
 }

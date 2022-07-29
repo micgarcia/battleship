@@ -1,4 +1,4 @@
-import { assignBoard, populateBoard, clickAttack } from './battleshipDom.js';
+import { assignBoard, getShips, populateBoard, clickAttack } from './battleshipDom.js';
 
 export const Ship = function(length) {
   this.positions = new Array(length);
@@ -30,6 +30,7 @@ export const Gameboard = function(fleet) {
       const ship = this.board[coord];
       let j = -1;
       for (let prop in this.board) {
+
         if (this.board[prop] === ship) {
           j++;
         }
@@ -60,6 +61,7 @@ export const Player = function(playerName) {
   this.attack = function(board, coord) {
     board.receiveAttack(coord);
   }
+  this.attackHistory = [];
   this.compAttack = function(board) {
     const letters = "ABCDEFGHIJ";
     let randomLetter = letters[Math.floor(Math.random() * letters.length)];
@@ -68,11 +70,18 @@ export const Player = function(playerName) {
       this.compAttack(board);
     }
     let randomCoord = randomLetter + randomNumber;
-    if(board.board[randomCoord] === 'miss') {
-      this.compAttack(board);
-    } else {
-      board.receiveAttack(randomCoord);
+
+    while((this.attackHistory.includes(randomCoord))) {
+      randomLetter = letters[Math.floor(Math.random() * letters.length)];
+      randomNumber = (Math.floor(Math.random() * (11 - 1) + 1)).toString();
+      randomCoord = randomLetter + randomNumber;
+      if (this.attackHistory.length === 100) {
+        break;
+      }
     }
+    this.attackHistory.push(randomCoord);
+    board.receiveAttack(randomCoord);
+
     return randomCoord;
   }
 }
@@ -88,28 +97,31 @@ export const gameLoop = function() {
   const subOne = new Ship(2);
   const subTwo = new Ship(2);
 
-  let oneShips = {
-    carrier: {
-      shipObj: carrier,
-      coordinates: ['A1', 'A2', 'A3', 'A4', 'A5']
-    },
-    battleship: {
-      shipObj: battleship,
-      coordinates: ['D1', 'E1', 'F1', 'G1']
-    },
-    cruiser: {
-      shipObj: cruiser,
-      coordinates: ['J1', 'J2', 'J3']
-    },
-    subOne: {
-      shipObj: subOne,
-      coordinates: ['E4', 'E5']
-    },
-    subTwo: {
-      shipObj: subTwo,
-      coordinates: ['B9', 'C9']
+  /*
+  A1 A2 A3 A4 A5
+  B6 B7 B8 B9
+  H1 H2 H3
+  E5 E6
+  I9 J9
+  */
+
+  getShips.then(
+    function(oneShips) {
+      oneShips.carrier.shipObj = carrier;
+      oneShips.battleship.shipObj = battleship;
+      oneShips.cruiser.shipObj = cruiser;
+      oneShips.subOne.shipObj = subOne;
+      oneShips.subTwo.shipObj = subTwo;
+
+      const oneBoard = new Gameboard(oneShips);
+      const compBoard = new Gameboard(twoShips);
+
+      assignBoard();
+      populateBoard(oneBoard, 1);
+
+      clickAttack(compPlayer, compBoard, playerOne, oneBoard);
     }
-  }
+  )
 
   let twoShips = {
     carrier: {
@@ -133,31 +145,6 @@ export const gameLoop = function() {
       coordinates: ['J1', 'J2']
     }
   }
-
-  const oneBoard = new Gameboard(oneShips);
-  const compBoard = new Gameboard(twoShips);
-
-  assignBoard();
-  populateBoard(oneBoard, 1);
-  populateBoard(compBoard, 2);
-
-
-  clickAttack(compPlayer, compBoard, playerOne, oneBoard);
-
-
-
-/*
-  while (!(oneBoard.allSunk() || compBoard.allSunk())) {
-    if (playerOne.isTurn) {
-      playerOne.isTurn = false;
-      clickAttack(compPlayer, compBoard);
-    }
-    if (compPlayer.isTurn) {
-      compPlayer.isTurn = false;
-      clickAttack(playerOne, oneBoard);
-    }
-  }
-*/
 }
 
 

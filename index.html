@@ -10,6 +10,20 @@
 <body>
   <div id="content">
     <h1>Battleship</h1>
+    <form action="GET" id="coordInput">
+      <label for="instr">Enter Coordinates for each Ship below (C4, C3, C2 eg):</label>
+      <label for="carrier">Carrier (5):</label>
+      <input type="text" name="carrier" id="carrier">
+      <label for="battleship">Battleship (4):</label>
+      <input type="text" name="battleship" id="battleship">
+      <label for="cruiser">Cruiser (3):</label>
+      <input type="text" name="cruiser" id="cruiser">
+      <label for="subOne">Submarine (2):</label>
+      <input type="text" name="subOne" id="subOne">
+      <label for="subTwo">Submarine (2):</label>
+      <input type="text" name="subTwo" id="subTwo">
+      <button type="button" id="submitCoord"></button>
+    </form>
     <div id="gameArea">
       <div id="playerOne">Player One</div>
       <div class="lettersCont">
