@@ -73,7 +73,7 @@ export const Player = function(playerName) {
     } else {
       board.receiveAttack(randomCoord);
     }
-
+    return randomCoord;
   }
 }
 
@@ -141,36 +141,20 @@ export const gameLoop = function() {
   populateBoard(oneBoard, 1);
   populateBoard(compBoard, 2);
 
-  if (playerOne.isTurn) {
-    clickAttack(compPlayer, compBoard);
-    playerOne.isTurn = false;
-    compPlayer.isTurn = true;
-  }
 
-  if(compPlayer.isTurn) {
-    clickAttack(playerOne, oneBoard);
-  }
+  clickAttack(compPlayer, compBoard, playerOne, oneBoard);
 
 
-  if (playerOne.isTurn) {
-    clickAttack(compPlayer, compBoard);
-    playerOne.isTurn = false;
-    compPlayer.isTurn = true;
-  } else if (compPlayer.isTurn) {
-    clickAttack(playerOne, oneBoard);
-    compPlayer.isTurn = false;
-    playerOne.isTurn = true;
-  }
+
 /*
   while (!(oneBoard.allSunk() || compBoard.allSunk())) {
     if (playerOne.isTurn) {
-    clickAttack(compPlayer, compBoard);
-    playerOne.isTurn = false;
-    compPlayer.isTurn = true;
-    } else if (compPlayer.isTurn) {
-      clickAttack(playerOne, oneBoard);
+      playerOne.isTurn = false;
+      clickAttack(compPlayer, compBoard);
+    }
+    if (compPlayer.isTurn) {
       compPlayer.isTurn = false;
-      playerOne.isTurn = true;
+      clickAttack(playerOne, oneBoard);
     }
   }
 */

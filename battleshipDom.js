@@ -31,39 +31,59 @@ export const populateBoard = function(gameBoard, number) {
     }
 }
 
-export const clickAttack = function(targetPlayer, targetBoard) {
+
+export const clickAttack = function(targetPlayer, targetBoard, playerOne, playerBoard) {
   if (targetPlayer.name === 'Player One') {
     var boardElement = document.getElementById('boardOne');
   } else {
     var boardElement = document.getElementById('boardTwo');
   }
+
+  // User attacking logic
   if (targetPlayer.name === 'Computer') {
     const boardElementChildren = boardElement.children;
     for (let i = 0; i < boardElementChildren.length; i++) {
-      boardElementChildren[i].addEventListener('click', (event) => {
-        console.log(event.target.id);
+      boardElementChildren[i].addEventListener('click', function attack(event) {
         let selectedCoord = event.target.id;
         targetBoard.receiveAttack(selectedCoord);
-        console.log(targetBoard);
         if (targetBoard.board[selectedCoord] === 'miss') {
           event.target.style.backgroundColor = 'red';
         } else {
           event.target.style.backgroundColor = 'grey';
         }
+
+        // Computer attacking logic
+        let randomCoord = playerOne.compAttack(playerBoard);
+        for (let cell in playerBoard.board) {
+          if (playerBoard.board[cell] === 'miss') {
+            let hitSpot = document.getElementById(cell);
+            hitSpot.style.backgroundColor = 'red';
+          }
+        }
+        let playerBoardElement = document.getElementById('boardOne');
+        let playerBoardElementChildren = playerBoardElement.children;
+        for (let i = 0; i < playerBoardElementChildren.length; i++) {
+          if (playerBoardElementChildren[i].id === randomCoord) {
+            if (playerBoardElementChildren[i].style.backgroundColor === 'black') {
+              playerBoardElementChildren[i].style.backgroundColor = 'grey';
+            }
+          }
+        }
+
+        if (targetBoard.allSunk()) {
+          for (let i = 0; i < boardElementChildren.length; i++) {
+            boardElementChildren[i].removeEventListener('click', function attack);
+          }
+        } else if (playerBoard.allSunk()) {
+          for (let i = 0; i < boardElementChildren.length; i++) {
+            boardElementChildren[i].removeEventListener('click', function attack);
+          }
+        }
       })
-    }
-  } else if (targetPlayer.name === 'Player One') {
-    targetPlayer.compAttack(targetBoard);
-    for (let cell in targetBoard.board) {
-      if (targetBoard.board[cell] === 'miss') {
-        let hitSpot = document.getElementById(cell);
-        hitSpot.style.backgroundColor = 'red';
-      }
+      // targetPlayer.isTurn = true;
     }
   }
 
-  // IMPLEMENT SYSTEM TO SHOW VISUALLY WHICH SHIPS ARE HIT BY THE COMP ATTACK
-  //    SHOULD BE ABLE TO USE THE SHIP OBJECT'S POSITIONS ARRAY
   // FIX WHILE LOOP IN BATTLESHIP.JS SO THAT EACH PLAYER TAKES TURNS
   // FIGURE OUT HOW TO DISABLE CLICK EVENTS FROM PLAYER WHEN NOT THEIR TURN
   // CREATE WINNING EVENT WHEN THE WHILE LOOP STOPS BECAUSE ONE OF THE BOARDS
@@ -71,4 +91,16 @@ export const clickAttack = function(targetPlayer, targetBoard) {
   // CREATE INPUT TO ALLOW PLAYER TO PLACE SHIPS, COMPUTER RANDOMLY PLACES THEM
   // CREATE RESTART BUTTON TO RESET THE BOARD AND REPLACE THE SHIPS
   // HIDE THE COMPUTER'S SHIPS FROM PLAYER BUT SHOW HITS AND MISSES
+}
+
+const endGame = function(losingPlayer, losingBoard, attack) {
+  console.log(losingPlayer);
+  if(losingPlayer.name === 'Computer') {
+    const boardElement = document.getElementById('boardTwo');
+    let boardElementChildren = boardElement.children;
+    for (let i = 0; i < boardElementChildren.length; i++) {
+      boardElementChildren[i].removeEventListener('click', attack);
+    }
+  }
+  console.log('game over');
 }
