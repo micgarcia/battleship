@@ -81,7 +81,8 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
     for (let i = 0; i < boardElementChildren.length; i++) {
       boardElementChildren[i].addEventListener('click', function attack(event) {
         let selectedCoord = event.target.id;
-        if (event.target.style.backgroundColor === 'rgba(75, 101, 135, 0.9)' || event.target.style.backgroundColor === 'rgb(149, 1, 1)') {
+        if (event.target.style['background-color'] == 'rgb(75, 101, 135)' || event.target.style['background-color'] == 'rgb(149, 1, 1)') {
+          console.log('already attacked');
           return;
         }
 
@@ -99,7 +100,7 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
           if (playerBoard.board[cell] === 'miss') {
             let hitSpot = document.getElementById(cell);
             setTimeout(() => {
-              hitSpot.style.backgroundColor = 'rgba(75, 101, 135, 0.9)';
+              hitSpot.style.backgroundColor = 'rgb(75, 101, 135)';
             }, 1200);
           }
         }
