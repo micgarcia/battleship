@@ -5,6 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
   <title>Battleship</title>
 </head>
 <body>
@@ -13,15 +16,15 @@
     <form action="GET" id="coordInput">
       <label for="instr">Enter Coordinates for each Ship below (C4, C3, C2 eg):</label>
       <label for="carrier">Carrier (5):</label>
-      <input type="text" name="carrier" id="carrier">
+      <input type="text" name="carrier" id="carrier" required>
       <label for="battleship">Battleship (4):</label>
-      <input type="text" name="battleship" id="battleship">
+      <input type="text" name="battleship" id="battleship" required>
       <label for="cruiser">Cruiser (3):</label>
-      <input type="text" name="cruiser" id="cruiser">
+      <input type="text" name="cruiser" id="cruiser" required>
       <label for="subOne">Submarine (2):</label>
-      <input type="text" name="subOne" id="subOne">
+      <input type="text" name="subOne" id="subOne" required>
       <label for="subTwo">Submarine (2):</label>
-      <input type="text" name="subTwo" id="subTwo">
+      <input type="text" name="subTwo" id="subTwo" required>
       <button type="button" id="submitCoord">Place Ships</button>
     </form>
     <div id="msgCont">
@@ -157,7 +160,7 @@
           <div class="cell"></div>
         </div>
       </div>
-      <div id="playerTwo">Player Two</div>
+      <div id="playerTwo">Computer</div>
       <div id="boardTwoCont">
         <div class="lettersCont">
           <div class="letters">A</div>

@@ -63,7 +63,7 @@ export const populateBoard = function(gameBoard, number) {
     }
     for (let coord in gameBoard.board) {
       let currentCoord = boardElement.querySelector('#' + coord);
-      currentCoord.style.backgroundColor = 'black';
+      currentCoord.style.backgroundColor = 'rgb(50, 50, 50)';
     }
 }
 
@@ -81,16 +81,15 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
     for (let i = 0; i < boardElementChildren.length; i++) {
       boardElementChildren[i].addEventListener('click', function attack(event) {
         let selectedCoord = event.target.id;
-        if (event.target.style.backgroundColor === 'red' || event.target.style.backgroundColor === 'grey') {
-          console.log('already attacked');
+        if (event.target.style.backgroundColor === 'rgba(75, 101, 135, 0.9)' || event.target.style.backgroundColor === 'rgb(149, 1, 1)') {
           return;
         }
 
         targetBoard.receiveAttack(selectedCoord);
         if (targetBoard.board[selectedCoord] === 'miss') {
-          event.target.style.backgroundColor = 'red';
+          event.target.style.backgroundColor = 'rgb(75, 101, 135)';
         } else {
-          event.target.style.backgroundColor = 'grey';
+          event.target.style.backgroundColor = 'rgb(149, 1, 1)';
         }
 
         // Computer attacking logic
@@ -98,15 +97,15 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
         for (let cell in playerBoard.board) {
           if (playerBoard.board[cell] === 'miss') {
             let hitSpot = document.getElementById(cell);
-            hitSpot.style.backgroundColor = 'red';
+            hitSpot.style.backgroundColor = 'rgba(75, 101, 135, 0.9)';
           }
         }
         let playerBoardElement = document.getElementById('boardOne');
         let playerBoardElementChildren = playerBoardElement.children;
         for (let i = 0; i < playerBoardElementChildren.length; i++) {
           if (playerBoardElementChildren[i].id === randomCoord) {
-            if (playerBoardElementChildren[i].style.backgroundColor === 'black') {
-              playerBoardElementChildren[i].style.backgroundColor = 'grey';
+            if (playerBoardElementChildren[i].style.backgroundColor === 'rgb(50, 50, 50)') {
+              playerBoardElementChildren[i].style.backgroundColor = 'rgb(149, 1, 1)';
             }
           }
         }

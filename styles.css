@@ -44,35 +44,47 @@ table {
 
 html {
   height: 100%;
+  width: 100%;
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100%;
+  min-width: 100%;
 }
 
+/*
 body:before {
   content: ' ';
   display: block;
   position: absolute;
   left: 0;
   top: 0;
+  height: 100%;
+  width: 100%;
   min-width: 100%;
   min-height: 100%;
   opacity: 0.6;
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c6/Fleet_5_nations.jpg');
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: center;
   background-size: cover;
   z-index: -1;
 }
+*/
 
 
 
 #content {
   display: grid;
   justify-items: center;
-  width: 100%;
+
   height: 100%;
+  width: 100%;
+
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c6/Fleet_5_nations.jpg');
+  background-size: cover;
+
+  font-family: 'Black Ops One', cursive;
 }
 
 /*
@@ -84,14 +96,18 @@ body:before {
 h1 {
   margin: 1em;
   font-size: 30px;
-
+  background-color: rgba(247, 246, 242, 0.6);
+  padding: 0.5em;
+  border-radius: 5px;
 }
 
 form {
   display: grid;
   min-width: 150px;
   max-width: 250px;
-  background-color: white;
+  background-color: rgba(247, 246, 242, 0.6);
+  padding: 1em;
+  border-radius: 5px;
 }
 
 label {
@@ -119,13 +135,18 @@ input:focus {
 
   border-style: none;
   border-radius: 5px;
+  background-color: rgb(75, 101, 135);
+  color: rgb(240, 229, 207);
+  font-size: 16px;
 
-  transition: background-color 0.75s ease-in-out;
+  transition: background-color 0.3s ease-in;
+  font-family: 'Black Ops One', cursive;
 }
 
 #submitCoord:hover {
   cursor: pointer;
   background-color: gray;
+
 }
 
 #msgCont {
@@ -146,8 +167,8 @@ input:focus {
   margin-bottom: 7em;
   display: grid;
   grid-template-columns: 3fr minmax(75px, 300px) 3fr;
-  grid-template-rows: 75px 400px;
-
+  grid-template-rows: 50px 450px;
+  row-gap: 2em;
   justify-items: center;
 }
 
@@ -188,8 +209,13 @@ input:focus {
 
 
 #playerOne {
-  padding-left: 1em;
+  padding: 0.5em 1em 0.5em 1em;
   font-size: 26px;
+  align-self: center;
+  background-color: rgba(75, 101, 135, 0.9);
+  color: rgb(240, 229, 207);
+  border-style: none;
+  border-radius: 5px;
 }
 
 #boardOneCont {
@@ -197,8 +223,9 @@ input:focus {
   display: grid;
   grid-template-columns: 30px 1fr;
   grid-template-rows: 30px 1fr;
-
-  background-color: beige;
+  background-color: rgba(240, 229, 207, 0.85);
+  border-radius: 5px;
+  padding: 2em;
 }
 
 #boardOne {
@@ -211,11 +238,17 @@ input:focus {
 }
 
 #playerTwo {
-  padding-left: 1em;
   grid-column: 3 / 4;
   grid-row: 1 / 2;
+  padding: 0.5em 1em 0.5em 1em;
   font-size: 26px;
+  align-self: center;
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgba(75, 101, 135, 0.9);
+  color: rgb(240, 229, 207);
 }
+
 
 #boardTwoCont {
   grid-column: 3 / 4;
@@ -224,6 +257,10 @@ input:focus {
   display: grid;
   grid-template-columns: 30px 1fr;
   grid-template-rows: 30px 1fr;
+
+  background-color: rgba(240, 229, 207, 0.85);
+  border-radius: 5px;
+  padding: 2em;
 }
 
 #boardTwo {
@@ -236,16 +273,16 @@ input:focus {
 }
 
 #boardOne > .cell {
-  transition: background-color 0.75s ease-out;
+  transition: background-color 0.5s ease-out;
 }
 
 #boardTwo > .cell {
-  transition: background-color 0.75s ease-out;
+  transition: background-color 0.5s ease-out;
 }
 
 #boardTwo > .cell:hover {
-  background-color: rgb(200, 200, 200);
-
+  background-color: rgb(50, 50, 50);
+  cursor: pointer;
 }
 
 .cell {
@@ -253,4 +290,5 @@ input:focus {
   border-width: 1px;
   height: 35px;
   width: 35px;
+  border-radius: 2px;
 }
