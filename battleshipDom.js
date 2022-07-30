@@ -121,12 +121,18 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
   }
 }
 
+// Work on styling and formatting
+
 const endGame = function(winningPlayer) {
+  const msgCont = document.getElementById('msgCont');
+  msgCont.innerHTML = '';
+
   const winMessage = document.createElement('div');
-  const form = document.getElementById('coordInput');
+  const gameArea = document.getElementById('gameArea');
   const content = document.getElementById('content');
   winMessage.setAttribute('id', 'winMessage');
   winMessage.innerHTML = winningPlayer + ' has won!';
 
-  content.insertBefore(winMessage, form);
+  msgCont.appendChild(winMessage);
+  content.insertBefore(msgCont, gameArea);
 }
