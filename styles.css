@@ -47,39 +47,21 @@ html {
   width: 100%;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   min-height: 100%;
   min-width: 100%;
 }
-
-/*
-body:before {
-  content: ' ';
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  min-width: 100%;
-  min-height: 100%;
-  opacity: 0.6;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c6/Fleet_5_nations.jpg');
-  background-repeat: repeat;
-  background-position: center;
-  background-size: cover;
-  z-index: -1;
-}
-*/
-
-
 
 #content {
   display: grid;
   justify-items: center;
 
   height: 100%;
-  width: 100%;
+  min-width: 963px;
 
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c6/Fleet_5_nations.jpg');
   background-size: cover;
@@ -151,10 +133,15 @@ input:focus {
 
 #msgCont {
   font-size: 30px;
+  background-color: rgba(75, 101, 135, 0.9);
+  margin-top: 3em;
+  border-style: none;
+  border-radius: 5px;
 }
 
 #winMessage {
-  padding-top: 3em;
+  color: rgb(240, 229, 207);
+  padding: 0.5em 1em 0.5em 1em;
 }
 /*
   ==========
