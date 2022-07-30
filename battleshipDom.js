@@ -94,10 +94,13 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
 
         // Computer attacking logic
         let randomCoord = targetPlayer.compAttack(playerBoard);
+
         for (let cell in playerBoard.board) {
           if (playerBoard.board[cell] === 'miss') {
             let hitSpot = document.getElementById(cell);
-            hitSpot.style.backgroundColor = 'rgba(75, 101, 135, 0.9)';
+            setTimeout(() => {
+              hitSpot.style.backgroundColor = 'rgba(75, 101, 135, 0.9)';
+            }, 1200);
           }
         }
         let playerBoardElement = document.getElementById('boardOne');
@@ -105,7 +108,9 @@ export const clickAttack = function(targetPlayer, targetBoard, playerOne, player
         for (let i = 0; i < playerBoardElementChildren.length; i++) {
           if (playerBoardElementChildren[i].id === randomCoord) {
             if (playerBoardElementChildren[i].style.backgroundColor === 'rgb(50, 50, 50)') {
-              playerBoardElementChildren[i].style.backgroundColor = 'rgb(149, 1, 1)';
+              setTimeout(() => {
+                playerBoardElementChildren[i].style.backgroundColor = 'rgb(149, 1, 1)';
+              }, 1200);
             }
           }
         }
